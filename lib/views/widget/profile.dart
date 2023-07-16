@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:libararyy/views/widget/utils.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _ProfileScreenState extends State<ProfileScreen> {
+  @override
+  
+  void initState() {
+    super.initState();
+    getUserEmail();
+  }
+
+  String userEmail = "";
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      
-      body:SingleChildScrollView(
+    return Scaffold(
+      body: SingleChildScrollView(
         child: Container(
           width: 500,
           height: 850,
@@ -24,13 +32,11 @@ class _MainScreenState extends State<MainScreen> {
           ),
           child: Form(
             child: Column(children: [
-              
-
-               SizedBox(
-                  height: 50,
-                ),
+              SizedBox(
+                height: 50,
+              ),
               Text(
-               "Home ",
+                userEmail,
                 style: const TextStyle(
                     color: Color.fromARGB(255, 0, 0, 0), fontSize: 30),
               ),
@@ -38,7 +44,11 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
-
     );
+  }
+
+  getUserEmail() async {
+    userEmail = await getEmail();
+    setState(() {});
   }
 }

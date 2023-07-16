@@ -1,21 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:libararyy/widget/utils.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class SettingScreen extends StatefulWidget {
+  const SettingScreen({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<SettingScreen> createState() => _SettingScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
-  @override
-  void initState() {
-    super.initState();
-    getUserEmail();
-  }
-
-  String userEmail = "";
+class _SettingScreenState extends State<SettingScreen> {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 50,
               ),
               Text(
-                userEmail,
+                "Settings",
                 style: const TextStyle(
                     color: Color.fromARGB(255, 0, 0, 0), fontSize: 30),
               ),
@@ -44,10 +37,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
-  }
-
-  getUserEmail() async {
-    userEmail = await getEmail();
-    setState(() {});
   }
 }

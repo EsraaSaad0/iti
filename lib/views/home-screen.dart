@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:libararyy/widget/profile.dart';
-import 'package:libararyy/widget/setting-screen.dart';
+import 'package:libararyy/views/widget/profile.dart';
+import 'package:libararyy/views/widget/setting-screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'widget/main-screen.dart';
@@ -14,6 +14,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  
+
   int _currentIndex = 0;
   List<Widget> page = [
     MainScreen(),
@@ -43,8 +45,5 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  saveEmail(String email) async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString("email", email);
-  }
+  
 }

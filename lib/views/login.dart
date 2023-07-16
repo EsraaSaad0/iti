@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:libararyy/forget.dart';
-import 'package:libararyy/home-screen.dart';
+import 'package:libararyy/views/widget/forget.dart';
+import 'package:libararyy/views/home-screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required String email});
@@ -12,8 +13,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
-   final _formKey = GlobalKey<FormState>();
-   final TextEditingController emailController = TextEditingController();
+    final _formKey = GlobalKey<FormState>();
+    final TextEditingController emailController = TextEditingController();
 
     return Scaffold(
       /*appBar: AppBar(
@@ -127,10 +128,13 @@ class _LoginPageState extends State<LoginPage> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      saveEmail(emailController.text);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>  HomeScreen(email: emailController.text,)),
+                            builder: (context) => HomeScreen(
+                                  email: emailController.text,
+                                )),
                       );
                     }
                   },
@@ -154,9 +158,10 @@ class _LoginPageState extends State<LoginPage> {
                 TextButton(
                   onPressed: () {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const ForgetPasswoed()),);
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ForgetPasswoed()),
+                    );
                   },
                   child: const Text(
                     "Forgot password?",
@@ -189,5 +194,9 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-  
+
+  saveEmail(String email) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("email", email);
+  }
 }
