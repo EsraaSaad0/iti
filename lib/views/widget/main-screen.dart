@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:libararyy/Models/todo-model.dart';
 import 'package:libararyy/services/todo-service.dart';
+import 'package:libararyy/views/todo/todo_cubit.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -10,31 +12,51 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<TodoModel> todoList = [];
-  getTodo() async {
-    todoList = await TodoSercive().getTodoData();
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    getTodo();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: todoList.length,
-        itemBuilder: (BuildContext context, index) {
-          return ListTile(
-            title: Text(todoList[index].completed.toString()) ,
-            subtitle: Text(todoList[index].title?? "--"),
+    return BlocProvider(
+      create: (context) => TodoCubit(),
+      child: BlocConsumer<TodoCubit, TodoState>(
+        builder: (context, State) {
+          if (State is TodoLoading) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (State is TodoSuccess) {
+            return ListView.builder(
+              itemCount: context.watch<TodoCubit>().todoList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  leading: Text(
+                      context.watch<TodoCubit>().todoList[index].id.toString()),
+                  title: Text(context
+                      .watch<TodoCubit>()
+                      .todoList[index]
+                      .completed
+                      .toString()),
+                  subtitle: Text(
+                      context.watch<TodoCubit>().todoList[index].title ?? "--"),
+                  trailing: Icon(Icons.person),
+                );
+              },
+            );
+          } else {
+            return Center(
+              child: Text("you have error in this screen"),
+            );
+          }
+        },
+        listener: (context, State) {
+          if (State is TodoError) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text("We have error")));
+          }
+        },
+      ),
+    );
+  }
+}
 
-          
-          
-          );
-        });
 
     /*Scaffold(
       
@@ -75,5 +97,4 @@ class _MainScreenState extends State<MainScreen> {
 
     );
     */
-  }
-}
+  
