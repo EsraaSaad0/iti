@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:libararyy/views/new%20account.dart';
 import 'package:libararyy/views/widget/forget.dart';
-import 'package:libararyy/views/home-screen.dart';
+import 'package:libararyy/views/secondpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
@@ -15,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final _formKey = GlobalKey<FormState>();
     final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
       /*appBar: AppBar(
@@ -94,6 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                   padding: const EdgeInsets.fromLTRB(3, 0, 3, 0),
                   child: TextFormField(
                     obscureText: true,
+                    controller: passwordController,
                     decoration: InputDecoration(
                       label: const Text("password",
                           style: TextStyle(
@@ -128,7 +132,10 @@ class _LoginPageState extends State<LoginPage> {
                 ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      saveEmail(emailController.text);
+                      // saveEmail(emailController.text);
+
+                      SignUpUsingFirebase(
+                          emailController.text, passwordController.text);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -198,5 +205,13 @@ class _LoginPageState extends State<LoginPage> {
   saveEmail(String email) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString("email", email);
+  }
+
+  SignUpUsingFirebase(String email, String password) async {
+    final userCredential = await FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password);
+    final user = userCredential.user;
+    print(user?.uid);
+    saveEmail(user!.email!);
   }
 }

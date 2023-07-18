@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:libararyy/Models/todo-model.dart';
-import 'package:libararyy/services/todo-service.dart';
 import 'package:libararyy/views/todo/todo_cubit.dart';
 
 class MainScreen extends StatefulWidget {

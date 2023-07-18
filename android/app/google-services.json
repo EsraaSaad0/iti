@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "539038075159",
+    "project_id": "iti23tranning",
+    "storage_bucket": "iti23tranning.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539038075159:android:765f3be320ef22a3410f52",
+        "android_client_info": {
+          "package_name": "com.example.libararyy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539038075159-5b5s7o329sjntue2qeejs4jqqqsjb667.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQdmWMVZRGzymMxt82Cg-jziqbV2ZjB60"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "539038075159-5b5s7o329sjntue2qeejs4jqqqsjb667.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "539038075159-s7qv6usduglbhemvts9b8b17tmp69akm.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.libararyy.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
