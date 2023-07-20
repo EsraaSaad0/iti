@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:libararyy/views/bookslist.dart';
 import 'package:libararyy/views/new%20account.dart';
 import 'package:libararyy/views/widget/forget.dart';
 import 'package:libararyy/views/secondpage.dart';
@@ -130,19 +131,45 @@ class _LoginPageState extends State<LoginPage> {
                   height: 70,
                 ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      // saveEmail(emailController.text);
-
-                      SignUpUsingFirebase(
+                      // saveEmail(emailController.text);//SignUpUsingFirebase(emailController.text, passwordController.text);
+                      bool loginn = await SignUpUsingFirebase(
                           emailController.text, passwordController.text);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => HomeScreen(
-                                  email: emailController.text,
-                                )),
-                      );
+                      if (loginn == true) {
+
+                     Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BooksList()),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                            "Login Faild",
+                            style: TextStyle(color: Color.fromARGB(255, 243, 235, 235), fontSize: 20),
+                          ),
+                        ));
+
+
+
+
+
+                       /* Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => HomeScreen(
+                                    email: emailController.text,
+                                  )),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                            "Login Faild",
+                            style: TextStyle(color: Color.fromARGB(255, 243, 235, 235), fontSize: 20),
+                          ),
+                        ));*/
+                      }
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -183,9 +210,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 120,
                 ),
                 TextButton(
-                  onPressed: () {
-                    // Handle forgot password button press
-                  },
+                  onPressed: () {},
                   child: const Text(
                     " Don't have an account? Sign Up",
                     style: TextStyle(
@@ -207,11 +232,20 @@ class _LoginPageState extends State<LoginPage> {
     prefs.setString("email", email);
   }
 
-  SignUpUsingFirebase(String email, String password) async {
-    final userCredential = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password);
-    final user = userCredential.user;
-    print(user?.uid);
-    saveEmail(user!.email!);
+  Future<bool> SignUpUsingFirebase(String email, String password) async {
+    bool result = false;
+    try {
+      final userCredential = await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      final user = userCredential.user;
+      if (user != null) {
+        print(user?.uid);
+        saveEmail(user!.email!);
+        result = true;
+      }
+      return result;
+    } catch (e) {
+      return result;
+    }
   }
 }
